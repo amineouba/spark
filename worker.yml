@@ -19,13 +19,6 @@ spec:
       containers:
         - name: spark-worker
           image: koukika/spark-worker2:latest
-          resources:
-            limits:
-              memory: 1.5G
-              cpu: 1.5
-            requests:
-              memory: 1G
-              cpu: 1
           ports:
             - containerPort: 8081
               name: webui
