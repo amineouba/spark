@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-worker
+  namespace: spark
+  labels:
+    component: spark-worker
+spec:
+  selector:
+    matchLabels:
+      component: spark-worker
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        component: spark-worker
+    spec:
+      serviceAccountName: spark-acc
+      containers:
+        - name: spark-worker
+          image: koukika/spark-worker2:latest
+          resources:
+            limits:
+              memory: 1.5G
+              cpu: 1.5
+            requests:
+              memory: 1G
+              cpu: 1
+          ports:
+            - containerPort: 8081
+              name: webui
+          env:
+            - name: SPARK_CONF_DIR
+              value: "/conf"
+            - name: SPARK_WORKER_CORES
+              value: "1"
+            - name: SPARK_WORKER_MEMORY
+              value: "1g"
+            - name: SPARK_WORKER_PORT
+              value: "8881"
+            - name: SPARK_WORKER_WEBUI_PORT
+              value: "8081"
